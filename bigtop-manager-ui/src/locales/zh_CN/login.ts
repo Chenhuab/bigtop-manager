@@ -18,7 +18,7 @@
  */
 
 export default {
-  desc: '更便捷的 Bigtop 部署工具',
+  desc: '更便捷的 MassDB 部署工具',
   tips: '欢迎使用本系统',
   tab_account: '账号密码登录',
   username_placeholder: '请输入用户名',
