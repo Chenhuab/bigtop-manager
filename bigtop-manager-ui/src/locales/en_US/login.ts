@@ -18,7 +18,7 @@
  */
 
 export default {
-  desc: 'An easy deployment solution for Bigtop',
+  desc: 'An easy deployment solution for MassDB',
   tips: 'Welcome to the system',
   tab_account: 'Account Login',
   username_placeholder: 'Please input your username',
