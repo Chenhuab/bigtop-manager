@@ -22,7 +22,7 @@
     <service>
         <name>hadoop</name>
         <display-name>Hadoop</display-name>
-        <desc>Apache Hadoop Distributed File System.</desc>
+        <desc>Hadoop 分布式文件系统。</desc>
         <version>3.3.6-1</version>
         <user>hadoop</user>
         <license>Apache-2.0</license>

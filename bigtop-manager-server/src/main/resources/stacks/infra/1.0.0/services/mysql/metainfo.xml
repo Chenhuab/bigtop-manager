@@ -23,8 +23,8 @@
         <name>mysql</name>
         <display-name>MySQL</display-name>
         <desc>
-            MySQL is an open source relational database management system (RDBMS) that’s used to store and manage data.
-            Its reliability, performance, scalability, and ease of use make MySQL a popular choice for developers.
+            MySQL是一个开源的关系数据库管理系统（RDBMS），用于存储和管理数据。
+            MySQL的可靠性、性能、可扩展性和易用性使其成为开发人员的热门选择。
         </desc>
         <version>8.0.40</version>
         <user>mysql</user>

@@ -22,10 +22,7 @@
     <service>
         <name>zookeeper</name>
         <display-name>ZooKeeper</display-name>
-        <desc>
-            Apache ZooKeeper is an effort to develop and maintain an open-source server which enables highly
-            reliable distributed coordination.
-        </desc>
+        <desc>分布式协调服务，为其他大数据组件提供配置维护、域名服务、分布式同步、组管等基础服务。</desc>
         <version>3.7.2-1</version>
         <user>zookeeper</user>
         <license>Apache-2.0</license>
