@@ -91,7 +91,7 @@
         <div class="login-header">
           <div class="login-header-left">
             <img class="login-logo" src="@/assets/logo.svg" alt="logo" />
-            <div class="login-title">Bigtop Manager</div>
+            <div class="login-title">MassDB Manager</div>
             <div class="login-desc">{{ t('login.desc') }}</div>
           </div>
           <div class="login-header-right"><login-lang /></div>
