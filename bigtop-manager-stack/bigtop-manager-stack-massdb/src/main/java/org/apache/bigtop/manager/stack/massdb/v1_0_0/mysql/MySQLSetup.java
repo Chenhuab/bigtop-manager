@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.bigtop.manager.stack.infra.v1_0_0.mysql;
+package org.apache.bigtop.manager.stack.massdb.v1_0_0.mysql;
 
 import org.apache.bigtop.manager.common.constants.Constants;
 import org.apache.bigtop.manager.common.shell.ShellResult;

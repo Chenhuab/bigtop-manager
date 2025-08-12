@@ -16,11 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.bigtop.manager.stack.infra.v1_0_0.prometheus;
+package org.apache.bigtop.manager.stack.massdb.v1_0_0.grafana;
 
 import org.apache.bigtop.manager.common.constants.Constants;
 import org.apache.bigtop.manager.common.shell.ShellResult;
-import org.apache.bigtop.manager.stack.core.enums.ConfigType;
 import org.apache.bigtop.manager.stack.core.spi.param.Params;
 import org.apache.bigtop.manager.stack.core.utils.linux.LinuxFileUtils;
 
@@ -29,48 +28,43 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.MessageFormat;
-import java.util.Map;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PrometheusSetup {
+public class GrafanaSetup {
 
     public static ShellResult config(Params params) {
-        PrometheusParams prometheusParams = (PrometheusParams) params;
-        String user = prometheusParams.user();
-        String group = prometheusParams.group();
+        GrafanaParams grafanaParams = (GrafanaParams) params;
+        String user = grafanaParams.user();
+        String group = grafanaParams.group();
 
-        LinuxFileUtils.createDirectories(prometheusParams.dataDir(), user, group, Constants.PERMISSION_755, true);
-        LinuxFileUtils.createDirectories(prometheusParams.confDir(), user, group, Constants.PERMISSION_755, true);
+        LinuxFileUtils.createDirectories(grafanaParams.dataDir(), user, group, Constants.PERMISSION_755, true);
+        LinuxFileUtils.createDirectories(grafanaParams.dataSourceDir(), user, group, Constants.PERMISSION_755, true);
 
         LinuxFileUtils.toFileByTemplate(
-                prometheusParams.getPrometheusContent(),
-                MessageFormat.format("{0}/prometheus.yml", prometheusParams.confDir()),
+                grafanaParams.getGrafanaContent(),
+                MessageFormat.format("{0}/grafana.ini", grafanaParams.confDir()),
                 user,
                 group,
                 Constants.PERMISSION_644,
-                prometheusParams.getGlobalParamsMap());
+                grafanaParams.getGlobalParamsMap());
 
         LinuxFileUtils.toFileByTemplate(
-                prometheusParams.getPrometheusRulesFileContent(),
-                MessageFormat.format(
-                        "{0}/{1}", prometheusParams.confDir(), prometheusParams.getPrometheusRulesFilename()),
+                grafanaParams.getDataSourceContent(),
+                MessageFormat.format("{0}/prometheus.yaml", grafanaParams.dataSourceDir()),
                 user,
                 group,
                 Constants.PERMISSION_644,
-                prometheusParams.getGlobalParamsMap());
+                grafanaParams.getGlobalParamsMap());
 
-        for (int i = 0; i < prometheusParams.getScrapeJobs().size(); i++) {
-            Map<String, Object> job = prometheusParams.getScrapeJobs().get(i);
-            LinuxFileUtils.toFile(
-                    ConfigType.JSON,
-                    (String) job.get("targets_file"),
-                    user,
-                    group,
-                    Constants.PERMISSION_644,
-                    job.get("targets_list"));
-        }
+        LinuxFileUtils.toFileByTemplate(
+                grafanaParams.getGrafanaDashboardContent(),
+                MessageFormat.format("{0}/bm-dashboards.yaml", grafanaParams.dashboardsDir()),
+                user,
+                group,
+                Constants.PERMISSION_644,
+                grafanaParams.getGlobalParamsMap());
 
-        return ShellResult.success("Prometheus Configure success!");
+        return ShellResult.success("Grafana Configure success!");
     }
 }

@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.bigtop.manager.stack.infra.param;
+package org.apache.bigtop.manager.stack.massdb.param;
 
 import org.apache.bigtop.manager.common.utils.Environments;
 import org.apache.bigtop.manager.grpc.payload.ComponentCommandPayload;

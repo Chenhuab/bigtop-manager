@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.bigtop.manager.stack.infra.v1_0_0.mysql;
+package org.apache.bigtop.manager.stack.massdb.v1_0_0.prometheus;
 
 import org.apache.bigtop.manager.stack.core.spi.param.Params;
 
@@ -25,42 +25,42 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class MySQLServerScriptTest {
+public class PrometheusServerScriptTest {
 
-    private final MySQLServerScript mysqlServerScript = new MySQLServerScript();
+    private final PrometheusServerScript prometheusServerScript = new PrometheusServerScript();
 
     @Test
-    void testGetComponentName() {
-        assertEquals("mysql_server", mysqlServerScript.getComponentName());
+    public void testGetComponentName() {
+        assertEquals("prometheus_server", prometheusServerScript.getComponentName());
     }
 
     @Test
     public void testAddParamsNull() {
         Params params = null;
-        assertThrows(NullPointerException.class, () -> mysqlServerScript.add(params));
+        assertThrows(NullPointerException.class, () -> prometheusServerScript.add(params));
     }
 
     @Test
     public void testConfigureParamsNull() {
         Params params = null;
-        assertThrows(NullPointerException.class, () -> mysqlServerScript.configure(params));
+        assertThrows(NullPointerException.class, () -> prometheusServerScript.configure(params));
     }
 
     @Test
     public void testStartParamsNull() {
         Params params = null;
-        assertThrows(NullPointerException.class, () -> mysqlServerScript.start(params));
+        assertThrows(NullPointerException.class, () -> prometheusServerScript.start(params));
     }
 
     @Test
     public void testStopParamsNull() {
         Params params = null;
-        assertThrows(NullPointerException.class, () -> mysqlServerScript.stop(params));
+        assertThrows(NullPointerException.class, () -> prometheusServerScript.stop(params));
     }
 
     @Test
     public void testStatusParamsNull() {
         Params params = null;
-        assertThrows(NullPointerException.class, () -> mysqlServerScript.status(params));
+        assertThrows(NullPointerException.class, () -> prometheusServerScript.status(params));
     }
 }

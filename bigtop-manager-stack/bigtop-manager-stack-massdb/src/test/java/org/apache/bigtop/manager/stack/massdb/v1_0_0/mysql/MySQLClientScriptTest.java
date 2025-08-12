@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.bigtop.manager.stack.infra.v1_0_0.prometheus;
+package org.apache.bigtop.manager.stack.massdb.v1_0_0.mysql;
 
 import org.apache.bigtop.manager.stack.core.spi.param.Params;
 
@@ -25,42 +25,24 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class PrometheusServerScriptTest {
+public class MySQLClientScriptTest {
 
-    private final PrometheusServerScript prometheusServerScript = new PrometheusServerScript();
+    private final MySQLClientScript clientScript = new MySQLClientScript();
 
     @Test
     public void testGetComponentName() {
-        assertEquals("prometheus_server", prometheusServerScript.getComponentName());
+        assertEquals("mysql_client", clientScript.getComponentName());
     }
 
     @Test
     public void testAddParamsNull() {
         Params params = null;
-        assertThrows(NullPointerException.class, () -> prometheusServerScript.add(params));
+        assertThrows(NullPointerException.class, () -> clientScript.add(params));
     }
 
     @Test
     public void testConfigureParamsNull() {
         Params params = null;
-        assertThrows(NullPointerException.class, () -> prometheusServerScript.configure(params));
-    }
-
-    @Test
-    public void testStartParamsNull() {
-        Params params = null;
-        assertThrows(NullPointerException.class, () -> prometheusServerScript.start(params));
-    }
-
-    @Test
-    public void testStopParamsNull() {
-        Params params = null;
-        assertThrows(NullPointerException.class, () -> prometheusServerScript.stop(params));
-    }
-
-    @Test
-    public void testStatusParamsNull() {
-        Params params = null;
-        assertThrows(NullPointerException.class, () -> prometheusServerScript.status(params));
+        assertThrows(NullPointerException.class, () -> clientScript.configure(params));
     }
 }

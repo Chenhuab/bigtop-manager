@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.bigtop.manager.stack.infra.v1_0_0.grafana;
+package org.apache.bigtop.manager.stack.massdb.v1_0_0.grafana;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -16,14 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.bigtop.manager.stack.infra.v1_0_0.mysql;
+package org.apache.bigtop.manager.stack.massdb.v1_0_0.mysql;
 
 import org.apache.bigtop.manager.grpc.payload.ComponentCommandPayload;
 import org.apache.bigtop.manager.grpc.pojo.RepoInfo;
 import org.apache.bigtop.manager.stack.core.annotations.GlobalParams;
 import org.apache.bigtop.manager.stack.core.spi.param.Params;
 import org.apache.bigtop.manager.stack.core.utils.LocalSettings;
-import org.apache.bigtop.manager.stack.infra.param.InfraParams;
+import org.apache.bigtop.manager.stack.massdb.param.InfraParams;
 
 import com.google.auto.service.AutoService;
 import lombok.Getter;

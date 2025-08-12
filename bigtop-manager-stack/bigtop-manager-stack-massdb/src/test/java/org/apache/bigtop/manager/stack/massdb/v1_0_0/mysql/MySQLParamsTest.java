@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.bigtop.manager.stack.infra.v1_0_0.prometheus;
+package org.apache.bigtop.manager.stack.massdb.v1_0_0.mysql;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,43 +25,32 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class PrometheusParamsTest {
+public class MySQLParamsTest {
 
-    private PrometheusParams prometheusParams;
+    private MySQLParams mySQLParams;
 
     @BeforeEach
     public void setUp() {
-        prometheusParams = mock(PrometheusParams.class);
-        when(prometheusParams.stackHome()).thenReturn("/stack");
-        when(prometheusParams.getServiceName()).thenCallRealMethod();
-        when(prometheusParams.serviceHome()).thenCallRealMethod();
-        when(prometheusParams.dataDir()).thenCallRealMethod();
-        when(prometheusParams.targetsConfigFile("test_job")).thenCallRealMethod();
-        when(prometheusParams.confDir()).thenCallRealMethod();
+        mySQLParams = mock(MySQLParams.class);
+        when(mySQLParams.stackHome()).thenReturn("/stack");
+        when(mySQLParams.getServiceName()).thenCallRealMethod();
+        when(mySQLParams.serviceHome()).thenCallRealMethod();
+        when(mySQLParams.confDir()).thenCallRealMethod();
+        when(mySQLParams.user()).thenCallRealMethod();
     }
 
     @Test
     public void testServiceHome() {
-        assertEquals("/stack/prometheus", prometheusParams.serviceHome());
+        assertEquals("/stack/mysql", mySQLParams.serviceHome());
     }
 
     @Test
     public void testConfDir() {
-        assertEquals("/stack/prometheus/conf", prometheusParams.confDir());
-    }
-
-    @Test
-    public void testDataDir() {
-        assertEquals("/stack/prometheus/data", prometheusParams.dataDir());
-    }
-
-    @Test
-    public void testTargetsConfigFile() {
-        assertEquals("/stack/prometheus/conf/test_job_targets.json", prometheusParams.targetsConfigFile("test_job"));
+        assertEquals("/stack/mysql/conf", mySQLParams.confDir());
     }
 
     @Test
     public void testGetServiceName() {
-        assertEquals("prometheus", prometheusParams.getServiceName());
+        assertEquals("mysql", mySQLParams.getServiceName());
     }
 }
