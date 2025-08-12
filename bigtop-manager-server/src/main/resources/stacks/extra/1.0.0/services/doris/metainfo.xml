@@ -23,8 +23,8 @@
         <name>doris</name>
         <display-name>Doris</display-name>
         <desc>
-            Apache Doris is a modern data warehouse for real-time analytics.
-            It delivers lightning-fast analytics on real-time data at scale.
+            一个用于实时分析的现代数据仓库。
+            能够大规模地对实时数据进行闪电般快速的分析。
         </desc>
         <version>2.1.10</version>
         <user>doris</user>

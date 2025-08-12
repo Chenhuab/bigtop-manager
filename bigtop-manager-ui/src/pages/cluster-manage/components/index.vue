@@ -30,8 +30,8 @@
 
   const store = reactive({
     loading: false,
-    stackSelected: 'Bigtop',
-    stackGroup: ['Bigtop', 'MassDB', 'Extra']
+    stackSelected: 'MassDB',
+    stackGroup: ['MassDB', 'Infra', 'Extra']
   })
 
   const data = ref<ServiceVO[]>([])

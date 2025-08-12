@@ -29,9 +29,9 @@
   const { stacks } = storeToRefs(stackStore)
 
   const data = ref<ServiceVO[]>([])
-  const stackSelected = ref('bigtop')
+  const stackSelected = ref('massdb')
   const setSourceRef = ref<InstanceType<typeof SetSource>>()
-  const stackGroup = shallowRef(['bigtop', 'massdb', 'extra'])
+  const stackGroup = shallowRef(['massdb', 'infra', 'extra'])
   const currentStack = computed(() => stacks.value.find((stack) => stack.stackName === stackSelected.value))
   const columns = computed((): TableColumnType[] => [
     {
