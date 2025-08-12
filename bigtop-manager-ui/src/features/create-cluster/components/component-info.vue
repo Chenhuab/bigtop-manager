@@ -31,7 +31,7 @@
   const data = ref<ServiceVO[]>([])
   const stackSelected = ref('bigtop')
   const setSourceRef = ref<InstanceType<typeof SetSource>>()
-  const stackGroup = shallowRef(['bigtop', 'infra', 'extra'])
+  const stackGroup = shallowRef(['bigtop', 'massdb', 'extra'])
   const currentStack = computed(() => stacks.value.find((stack) => stack.stackName === stackSelected.value))
   const columns = computed((): TableColumnType[] => [
     {

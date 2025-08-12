@@ -89,7 +89,7 @@ export const useCreateServiceStore = defineStore(
 
     const infraServices = computed(() => stackStore.getServicesByExclude(['bigtop', 'extra']) as ExpandServiceVO[])
     const infraServiceNames = computed(() => infraServices.value.map((v) => v.name!))
-    const excludeInfraServices = computed(() => stackStore.getServicesByExclude(['infra']))
+    const excludeInfraServices = computed(() => stackStore.getServicesByExclude(['massdb']))
 
     const processedServices = computed(() => new Set(selectedServices.value.map((v) => v.name)))
 
