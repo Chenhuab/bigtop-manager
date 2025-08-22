@@ -26,14 +26,14 @@
         <user>cassandra</user>
         <license>Apache-2.0</license>
 
-        <compoents>
-            <compoent>
+        <components>
+            <component>
                 <name>cassandra_server</name>
                 <display-name>Cassandra Server</display-name>
                 <category>server</category>
                 <cardinality>1+</cardinality>
-            </compoent>
-        </compoents>
+            </component>
+        </components>
 
         <package-specifics>
             <package-specific>
@@ -44,7 +44,7 @@
                 <packages>
                     <package>
                         <name>apache-cassandra-4.1.9-bin.tar.gz</name>
-                        <checksum></checksum>
+                        <checksum>SHA-256:65ad4f01e732b1730472360b5613f607cc1d4717cb6e2be3881e8736207e4e34</checksum>
                     </package>
                 </packages>
             </package-specific>
