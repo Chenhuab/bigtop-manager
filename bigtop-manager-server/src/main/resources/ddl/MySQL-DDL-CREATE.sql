@@ -162,7 +162,7 @@ CREATE TABLE `service_config`
 (
     `id`                BIGINT NOT NULL AUTO_INCREMENT,
     `name`              VARCHAR(255),
-    `properties_json`   TEXT,
+    `properties_json`   LONGTEXT,
     `cluster_id`        BIGINT,
     `service_id`        BIGINT,
     `create_time`       DATETIME    DEFAULT CURRENT_TIMESTAMP,
@@ -212,7 +212,7 @@ CREATE TABLE `job`
 (
     `id`          BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
     `name`        VARCHAR(255),
-    `context`     TEXT    NOT NULL,
+    `context`     LONGTEXT    NOT NULL,
     `state`       VARCHAR(32) NOT NULL,
     `cluster_id`  BIGINT(20) UNSIGNED DEFAULT NULL,
     `create_time` DATETIME    DEFAULT CURRENT_TIMESTAMP,
