@@ -41,6 +41,10 @@ public class CassandraSetup {
                 cassandraParams.getCassandraCachesDir(), cassandraUser, cassandraGroup, Constants.PERMISSION_755, true);
         LinuxFileUtils.createDirectories(
                 cassandraParams.getCassandraHintsDir(), cassandraUser, cassandraGroup, Constants.PERMISSION_755, true);
+        LinuxFileUtils.createDirectories(
+                cassandraParams.getCassandraPidDir(), cassandraUser, cassandraGroup, Constants.PERMISSION_755, true);
+        LinuxFileUtils.createDirectories(
+                cassandraParams.getCassandraLogDir(), cassandraUser, cassandraGroup, Constants.PERMISSION_755, true);
 
         HashMap<String, Object> map = new HashMap<>(cassandraYaml);
         map.remove("content");
