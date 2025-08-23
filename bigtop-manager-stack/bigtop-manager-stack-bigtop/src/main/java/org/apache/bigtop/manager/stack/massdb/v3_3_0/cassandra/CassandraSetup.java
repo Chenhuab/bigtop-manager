@@ -74,8 +74,8 @@ public class CassandraSetup {
                 cassandraUser,
                 cassandraGroup,
                 Constants.PERMISSION_644,
-                cassandraIn
-        );
+                cassandraParams.getGlobalParamsMap());
+
         log.info("Successfully configured Cassandra");
         return ShellResult.success();
     }

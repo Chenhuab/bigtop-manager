@@ -46,7 +46,7 @@
     </property>
     <property>
         <name>listen_address</name>
-        <value><![CDATA[PLAINTEXT://<#if host?? >${host}<#else>localhost</#if>]]></value>
+        <value><![CDATA[<#if host?? >${host}<#else>localhost</#if>]]></value>
         <display-name>节点间通信地址</display-name>
         <description>
             集群节点间通信使用的IP(或主机名)地址。
@@ -62,7 +62,7 @@
     </property>
     <property>
         <name>rpc_address</name>
-        <value><![CDATA[PLAINTEXT://<#if host?? >${host}<#else>localhost</#if>]]></value>
+        <value><![CDATA[<#if host?? >${host}<#else>localhost</#if>]]></value>
         <display-name>客户端连接地址</display-name>
         <description>
             客户端通过 CQL 连接时使用的地址。
