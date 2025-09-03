@@ -88,7 +88,7 @@ export const useCreateServiceStore = defineStore(
     const clusterId = computed(() => (creationMode.value === 'internal' ? stepContext.value.clusterId : 0))
 
     const infraServices = computed(() => stackStore.getServicesByExclude(['massdb', 'extra']) as ExpandServiceVO[])
-    const infraServiceNames = computed(() => infraServices.value.map((v) => v.name!))
+    const infraNames = computed(() => infraServices.value.map((v) => v.name!))
     const excludeInfraServices = computed(() => stackStore.getServicesByExclude(['infra']))
 
     const processedServices = ref(computed(() => new Set(selectedServices.value.map((v) => v.name))))
