@@ -31,7 +31,7 @@ public class CassandraSetup {
         Map<String, Object> cassandraYaml = cassandraParams.cassandraYaml();
         Map<String, Object> cassandraIn = cassandraParams.cassandraIn();
         Map<String, Object> cassandraEnv = cassandraParams.cassandraEnv();
-        List<String> cassandraHostList = LocalSettings.hosts("cassandra_server");
+        List<String> cassandraHostList = LocalSettings.componentHosts("cassandra_server");
 
         LinuxFileUtils.createDirectories(
                 cassandraParams.getCassandraDataDir(), cassandraUser, cassandraGroup, Constants.PERMISSION_755, true);
