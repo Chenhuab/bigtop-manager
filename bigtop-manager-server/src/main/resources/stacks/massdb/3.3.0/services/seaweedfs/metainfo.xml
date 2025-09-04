@@ -60,7 +60,7 @@
                 <packages>
                     <package>
                         <name>seaweedfs-amd64.tar.gz</name>
-                        <checksum>95d7ea87353458e8f8313b19b5b8d80c91ff1e2822dd9a6dd712efc694e2d205</checksum>
+                        <checksum>SHA-256:95d7ea87353458e8f8313b19b5b8d80c91ff1e2822dd9a6dd712efc694e2d205</checksum>
                     </package>
                 </packages>
             </package-specific>
@@ -71,7 +71,7 @@
                 <packages>
                     <package>
                         <name>seaweedfs-arm64.tar.gz</name>
-                        <checksum>4faa04b92a98769853926d3d80e727a00e057e51eb2aa07b7cf362184134287b</checksum>
+                        <checksum>SHA-256:4faa04b92a98769853926d3d80e727a00e057e51eb2aa07b7cf362184134287b</checksum>
                     </package>
                 </packages>
             </package-specific>
