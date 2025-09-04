@@ -28,7 +28,7 @@
     <property>
         <name>seaweedfs_log_dir</name>
         <display-name>Seaweedfs 日志目录</display-name>
-        <value>/var/log/Seaweedfs</value>
+        <value>/var/log/seaweedfs</value>
         <description />
     </property>
     <property>

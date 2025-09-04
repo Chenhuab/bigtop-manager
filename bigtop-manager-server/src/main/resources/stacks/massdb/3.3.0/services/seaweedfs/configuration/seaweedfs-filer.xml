@@ -21,7 +21,7 @@
 <configuration>
     <property>
         <name>port</name>
-        <value>9340</value>
+        <value>9350</value>
         <display-name>Filer 服务端口</display-name>
         <description  />
     </property>

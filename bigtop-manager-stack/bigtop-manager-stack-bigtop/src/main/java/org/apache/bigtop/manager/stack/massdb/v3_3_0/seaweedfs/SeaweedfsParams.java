@@ -110,7 +110,7 @@ public class SeaweedfsParams extends BigtopParams {
         s3Content = (String) seaweedfsFiler.get("content");
         s3JsonDir = (String) seaweedfsFiler.getOrDefault("s3.config", "/opt/services/seaweedfs");
 
-        if (s3Content.contains("install_dir")) {
+        if (s3JsonDir.contains("install_dir")) {
             s3JsonDir = serviceHome();
         }
 
