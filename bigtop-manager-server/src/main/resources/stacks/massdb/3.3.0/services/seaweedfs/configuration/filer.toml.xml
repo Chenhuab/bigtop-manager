@@ -397,7 +397,10 @@ verify_cn=""
 
 ]]>
         </value>
-
+        <attrs>
+            <type>longtext</type>
+            <required>true</required>
+        </attrs>
     </property>
 
 </configuration>

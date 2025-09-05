@@ -83,6 +83,9 @@
 }
 ]]>
         </value>
+        <attrs>
+            <type>longtext</type>
+        </attrs>
     </property>
 
 
