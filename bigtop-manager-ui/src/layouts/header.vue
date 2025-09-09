@@ -21,9 +21,6 @@
   import { useMenuStore } from '@/store/menu/index'
   import AiAssistant from '@/features/ai-assistant/index.vue'
 
-  const githubUrl = 'https://github.com/apache/bigtop-manager'
-  const bigtopMangerDocURL = 'https://github.com/apache/bigtop-manager/tree/main/docs'
-
   const { t } = useI18n()
   const route = useRoute()
   const menuStore = useMenuStore()
@@ -72,16 +69,6 @@
           <svg-icon name="communication" />
         </div>
         <select-lang />
-        <div class="header-item">
-          <a :href="githubUrl" target="_blank">
-            <svg-icon name="github" />
-          </a>
-        </div>
-        <div class="header-item">
-          <a :href="bigtopMangerDocURL" target="_blank">
-            <svg-icon name="book" />
-          </a>
-        </div>
       </a-space>
     </div>
     <ai-assistant ref="aiAssistantRef" />
