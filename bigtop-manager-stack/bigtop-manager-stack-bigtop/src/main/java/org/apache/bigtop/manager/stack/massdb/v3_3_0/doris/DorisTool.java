@@ -17,16 +17,11 @@
  * under the License.
  */
 
-package org.apache.bigtop.manager.stack.extra.v1_0_0.doris;
+package org.apache.bigtop.manager.stack.massdb.v3_3_0.doris;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;

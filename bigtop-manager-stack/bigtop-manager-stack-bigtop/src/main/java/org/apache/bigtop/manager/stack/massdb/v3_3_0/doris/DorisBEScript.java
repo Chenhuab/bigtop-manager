@@ -16,8 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.bigtop.manager.stack.extra.v1_0_0.doris;
+package org.apache.bigtop.manager.stack.massdb.v3_3_0.doris;
 
+import com.google.auto.service.AutoService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.bigtop.manager.common.constants.MessageConstants;
 import org.apache.bigtop.manager.common.shell.ShellResult;
 import org.apache.bigtop.manager.stack.core.exception.StackException;
 import org.apache.bigtop.manager.stack.core.spi.param.Params;
@@ -26,19 +29,13 @@ import org.apache.bigtop.manager.stack.core.spi.script.Script;
 import org.apache.bigtop.manager.stack.core.utils.linux.LinuxFileUtils;
 import org.apache.bigtop.manager.stack.core.utils.linux.LinuxOSUtils;
 
-import org.apache.commons.lang3.tuple.Pair;
-
-import com.google.auto.service.AutoService;
-import lombok.extern.slf4j.Slf4j;
-
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.List;
 import java.util.Properties;
 
 @Slf4j
 @AutoService(Script.class)
-public class DorisFEScript extends AbstractServerScript {
+public class DorisBEScript extends AbstractServerScript {
 
     @Override
     public ShellResult add(Params params) {
@@ -53,7 +50,7 @@ public class DorisFEScript extends AbstractServerScript {
         super.configure(params);
 
         try {
-            return DorisSetup.config(params, "doris_fe");
+            return DorisSetup.config(params, "doris_be");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -63,48 +60,30 @@ public class DorisFEScript extends AbstractServerScript {
     public ShellResult start(Params params) {
         configure(params);
         DorisParams dorisParams = (DorisParams) params;
-        String hostname = dorisParams.hostname();
-        String ip = dorisParams.ip();
-        LinuxFileUtils.removeDirectories(dorisParams.dorisFePidFile());
+        LinuxFileUtils.removeDirectories(dorisParams.dorisBePidFile());
 
-        // Check if the FE is already registered
-        Pair<String, List<String>> masterAndFeList = DorisService.getMasterAndFeList(dorisParams);
-        List<String> feList = masterAndFeList.getRight();
-        String feMaster = masterAndFeList.getLeft();
-
+        String cmd = MessageFormat.format("{0}/start_be.sh --daemon", dorisParams.dorisBeBinDir());
         try {
-            if (feMaster.equals(hostname) || feMaster.equals(ip) || feList.contains(hostname)) {
-                String cmd = MessageFormat.format("{0}/start_fe.sh --daemon", dorisParams.dorisFeBinDir());
-                return LinuxOSUtils.sudoExecCmd(cmd, dorisParams.user());
-            } else {
-                String cmd = MessageFormat.format(
-                        "{0}/start_fe.sh --helper {1}:{2,number,#} --daemon",
-                        dorisParams.dorisFeBinDir(), feMaster, dorisParams.dorisFeEditLogPort());
-
-                return LinuxOSUtils.sudoExecCmd(cmd, dorisParams.user());
+            ShellResult sr = LinuxOSUtils.sudoExecCmd(cmd, dorisParams.user());
+            if (sr.getExitCode() != MessageConstants.SUCCESS_CODE) {
+                throw new StackException(sr.formatMessage("Failed to start Doris BE"));
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new StackException(e);
         }
-    }
 
-    @Override
-    public ShellResult prepare(Params params) {
-        DorisParams dorisParams = (DorisParams) params;
-        // Register FE in Doris service
-        for (String dorisFeHost : dorisParams.dorisFeHosts()) {
-            DorisService.registerFollower(dorisParams, dorisFeHost);
-        }
+        // Register BE
+        DorisService.registerBe(dorisParams);
         return ShellResult.success();
     }
 
     @Override
     public ShellResult stop(Params params) {
         DorisParams dorisParams = (DorisParams) params;
-        String cmd = MessageFormat.format("{0}/stop_fe.sh", dorisParams.dorisFeBinDir());
+        String cmd = MessageFormat.format("{0}/stop_be.sh", dorisParams.dorisBeBinDir());
         try {
             ShellResult shellResult = LinuxOSUtils.sudoExecCmd(cmd, dorisParams.user());
-            LinuxFileUtils.removeDirectories(dorisParams.dorisFePidDir());
+            LinuxFileUtils.removeDirectories(dorisParams.dorisBePidDir());
             return shellResult;
         } catch (Exception e) {
             throw new StackException(e);
@@ -114,11 +93,11 @@ public class DorisFEScript extends AbstractServerScript {
     @Override
     public ShellResult status(Params params) {
         DorisParams dorisParams = (DorisParams) params;
-        return LinuxOSUtils.checkProcess(dorisParams.dorisFePidFile());
+        return LinuxOSUtils.checkProcess(dorisParams.dorisBePidFile());
     }
 
     @Override
     public String getComponentName() {
-        return "doris_fe";
+        return "doris_be";
     }
 }

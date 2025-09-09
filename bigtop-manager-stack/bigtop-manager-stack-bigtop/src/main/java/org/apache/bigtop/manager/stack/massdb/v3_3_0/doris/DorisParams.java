@@ -16,19 +16,18 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.bigtop.manager.stack.extra.v1_0_0.doris;
-
-import org.apache.bigtop.manager.grpc.payload.ComponentCommandPayload;
-import org.apache.bigtop.manager.stack.core.annotations.GlobalParams;
-import org.apache.bigtop.manager.stack.core.spi.param.Params;
-import org.apache.bigtop.manager.stack.core.utils.LocalSettings;
-import org.apache.bigtop.manager.stack.core.utils.template.BaseTemplate;
-import org.apache.bigtop.manager.stack.extra.param.ExtraParams;
+package org.apache.bigtop.manager.stack.massdb.v3_3_0.doris;
 
 import com.google.auto.service.AutoService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.bigtop.manager.grpc.payload.ComponentCommandPayload;
+import org.apache.bigtop.manager.stack.core.annotations.GlobalParams;
+import org.apache.bigtop.manager.stack.core.spi.param.Params;
+import org.apache.bigtop.manager.stack.core.utils.LocalSettings;
+import org.apache.bigtop.manager.stack.core.utils.template.BaseTemplate;
+import org.apache.bigtop.manager.stack.massdb.param.BigtopParams;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -39,7 +38,7 @@ import java.util.Map;
 @Getter
 @AutoService(Params.class)
 @NoArgsConstructor
-public class DorisParams extends ExtraParams {
+public class DorisParams extends BigtopParams {
 
     private final String limitsConfDir = "/etc/security/limits.d";
     private final String sysctlConfDir = "/etc/sysctl.d";
