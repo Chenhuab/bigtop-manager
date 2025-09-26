@@ -167,13 +167,16 @@ public class HadoopParams extends BigtopParams {
                     "yarn.resourcemanager.address",
                     ((String) yarnSite.get("yarn.resourcemanager.address"))
                             .replace("0.0.0.0", resourcemanagerList.get(0)));
-            yarnSite.put("yarn.resourcemanager.admin.address",
+            yarnSite.put(
+                    "yarn.resourcemanager.admin.address",
                     ((String) yarnSite.get("yarn.resourcemanager.admin.address"))
                             .replace("0.0.0.0", resourcemanagerList.get(0)));
-            yarnSite.put("yarn.resourcemanager.webapp.address",
+            yarnSite.put(
+                    "yarn.resourcemanager.webapp.address",
                     ((String) yarnSite.get("yarn.resourcemanager.webapp.address"))
                             .replace("0.0.0.0", resourcemanagerList.get(0)));
-            yarnSite.put("yarn.resourcemanager.webapp.https.address",
+            yarnSite.put(
+                    "yarn.resourcemanager.webapp.https.address",
                     ((String) yarnSite.get("yarn.resourcemanager.webapp.https.address"))
                             .replace("0.0.0.0", resourcemanagerList.get(0)));
         }
