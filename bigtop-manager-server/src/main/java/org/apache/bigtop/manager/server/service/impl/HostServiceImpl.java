@@ -34,6 +34,7 @@ import org.apache.bigtop.manager.server.enums.HealthyStatusEnum;
 import org.apache.bigtop.manager.server.enums.HostAuthTypeEnum;
 import org.apache.bigtop.manager.server.enums.InstalledStatusEnum;
 import org.apache.bigtop.manager.server.exception.ApiException;
+import org.apache.bigtop.manager.server.grpc.GrpcClient;
 import org.apache.bigtop.manager.server.model.converter.ComponentConverter;
 import org.apache.bigtop.manager.server.model.converter.HostConverter;
 import org.apache.bigtop.manager.server.model.dto.HostDTO;
@@ -197,9 +198,14 @@ public class HostServiceImpl implements HostService {
     @Override
     public Boolean batchRemove(List<Long> ids) {
         for (Long id : ids) {
+            HostPO hostPO = hostDao.findById(id);
             if (componentDao.countByHostId(id) > 0) {
-                HostPO hostPO = hostDao.findById(id);
                 throw new ApiException(ApiExceptionEnum.HOST_HAS_COMPONENTS, hostPO.getHostname());
+            }
+
+            // Check if agent is stopped before removing host
+            if (!HealthyStatusEnum.UNHEALTHY.getCode().equals(hostPO.getStatus())) {
+                throw new ApiException(ApiExceptionEnum.AGENT_STILL_RUNNING, hostPO.getHostname());
             }
         }
 
@@ -336,6 +342,9 @@ public class HostServiceImpl implements HostService {
 
         String command = path + "/bigtop-manager-agent/bin/agent.sh " + action;
         command = "export GRPC_PORT=" + grpcPort + " ; " + command;
+
+        // Remove channel before operations
+        GrpcClient.removeChannel(hostname);
 
         ShellResult result = execCommandOnRemoteHost(hostDTO, hostname, command);
         if (result.getExitCode() != MessageConstants.SUCCESS_CODE) {
