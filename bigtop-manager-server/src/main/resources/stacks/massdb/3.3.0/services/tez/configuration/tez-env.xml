@@ -22,17 +22,16 @@
     <!-- tez-env.sh -->
     <property>
         <name>content</name>
-        <display-name>tez-env template</display-name>
         <description>This is the freemarker template for tez-env.sh file</description>
         <value><![CDATA[
 # Tez specific configuration
-export TEZ_CONF_DIR=${tez_conf_dir!}
+export TEZ_CONF_DIR=${tez_conf_dir}
 
 # Set HADOOP_HOME to point to a specific hadoop install directory
-export HADOOP_HOME=${hadoop_home!}
+export HADOOP_HOME=${hadoop_home}
 
 # The java implementation to use.
-export JAVA_HOME=${java_home!}
+export JAVA_HOME=${java_home}
 ]]>
         </value>
         <attrs>
@@ -43,12 +42,10 @@ export JAVA_HOME=${java_home!}
         <name>enable_heap_dump</name>
         <value>false</value>
         <description>Enable or disable taking Heap Dump. (true/false)</description>
-        <display-name>Enable heap dump</display-name>
     </property>
     <property>
         <name>heap_dump_location</name>
         <value>/tmp</value>
         <description>Location for heap dump file</description>
-        <display-name>Heap dump location</display-name>
     </property>
 </configuration>
