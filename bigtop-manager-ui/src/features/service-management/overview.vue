@@ -18,64 +18,55 @@
 -->
 
 <script setup lang="ts">
-  import { CommonStatus, CommonStatusTexts } from '@/enums/state'
+  import { Empty } from 'ant-design-vue'
+  import { getServiceMetricsInfo } from '@/api/metrics'
 
-  import GaugeChart from '@/features/metric/gauge-chart.vue'
+  import { CommonStatus } from '@/enums/state'
+  import { formatFromByte } from '@/utils/storage.ts'
+  import { isEmpty } from '@/utils/tools'
+  import { STATUS_COLOR, TIME_RANGES, POLLING_INTERVAL } from '@/utils/constant'
+
+  import { useTabStore } from '@/store/tab-state'
+
   import CategoryChart from '@/features/metric/category-chart.vue'
 
-  import { Empty } from 'ant-design-vue'
-  import type { ServiceVO, ServiceStatusType } from '@/api/service/types'
+  import type { ServiceVO } from '@/api/service/types'
+  import type { ServiceMetricItem, ServiceMetrics, ServiceMetricType, TimeRangeType } from '@/api/metrics/types'
 
-  type TimeRangeText = '1m' | '15m' | '30m' | '1h' | '6h' | '30h'
-  type TimeRangeItem = {
-    text: TimeRangeText
-    time: string
+  type RouteParams = { id: number; serviceId: number }
+
+  type BaseConfigType = Partial<Record<keyof ServiceVO, string>>
+
+  type UnitMapType = Record<Lowercase<ServiceMetricType>, string | ((value: number) => string)>
+
+  const UNIT_MAP: UnitMapType = {
+    number: '',
+    percent: '%',
+    byte: (val) => formatFromByte(val, 0),
+    millisecond: 'ms',
+    bps: 'B/s',
+    nps: 'N/s'
   }
 
   const { t } = useI18n()
-  const attrs = useAttrs() as unknown as Required<ServiceVO> & { clusterId: number }
-  const currTimeRange = ref<TimeRangeText>('15m')
-  const chartData = ref({
-    chart1: [],
-    chart2: [],
-    chart3: [],
-    chart4: []
-  })
-  const statusColors = shallowRef<Record<ServiceStatusType, keyof typeof CommonStatusTexts>>({
-    1: 'healthy',
-    2: 'unhealthy',
-    3: 'unknown'
-  })
+  const route = useRoute()
+  const tabStore = useTabStore()
+  const attrs = useAttrs() as Partial<ServiceVO>
+
+  const isRunning = ref(false)
+  const interval = ref<TimeRangeType>('5m')
+  const chartData = ref<Partial<ServiceMetrics>>({})
+
+  const noChartData = computed(() => Object.values(chartData.value).length === 0)
   const serviceKeys = computed(() => Object.keys(baseConfig.value) as (keyof ServiceVO)[])
-  const noChartData = computed(() => Object.values(chartData.value).every((v) => v.length === 0))
-  const timeRanges = computed((): TimeRangeItem[] => [
-    {
-      text: '1m',
-      time: ''
-    },
-    {
-      text: '15m',
-      time: ''
-    },
-    {
-      text: '30m',
-      time: ''
-    },
-    {
-      text: '1h',
-      time: ''
-    },
-    {
-      text: '6h',
-      time: ''
-    },
-    {
-      text: '30h',
-      time: ''
-    }
-  ])
-  const baseConfig = computed((): Partial<Record<keyof ServiceVO, string>> => {
-    return {
+
+  const payload = computed(() => {
+    const { id: clusterId, serviceId } = route.params as unknown as RouteParams
+    return { clusterId, serviceId }
+  })
+
+  const baseConfig = computed(
+    (): BaseConfigType => ({
       status: t('overview.service_status'),
       displayName: t('overview.service_name'),
       version: t('overview.service_version'),
@@ -83,12 +74,66 @@
       restartFlag: t('service.required_restart'),
       metrics: t('overview.metrics'),
       kerberos: t('overview.kerberos')
+    })
+  )
+
+  const getChartFormatter = (chart: ServiceMetricItem) => {
+    const unit = UNIT_MAP[chart.valueType]
+    const valueWithUnit = (val: any) => (typeof unit === 'function' ? unit(val as number) : `${val} ${unit}`)
+    return {
+      tooltip: (val: any) => `${isEmpty(val) ? '--' : valueWithUnit(val)}`,
+      yAxis: valueWithUnit
     }
+  }
+
+  const shouldRunMetrics = () => {
+    const currTab = tabStore.getActiveTab(route.path) ?? '1'
+    const clusterId = payload.value.clusterId ?? 0
+    return clusterId != 0 && currTab === '1'
+  }
+
+  const getServiceMetrics = async () => {
+    if (isRunning.value) {
+      return
+    }
+
+    isRunning.value = true
+
+    try {
+      const { serviceId: id } = payload.value
+      const data = await getServiceMetricsInfo({ id }, { interval: interval.value })
+      chartData.value = { ...data }
+    } catch (error) {
+      console.log('Failed to fetch service metrics:', error)
+    } finally {
+      isRunning.value = false
+    }
+  }
+
+  const { pause, resume } = useIntervalFn(getServiceMetrics, POLLING_INTERVAL, { immediate: true })
+
+  const handleTimeRange = (time: TimeRangeType) => {
+    if (interval.value === time) return
+    interval.value = time
+    if (!shouldRunMetrics()) return
+    getServiceMetrics()
+    restartMetrics()
+  }
+
+  const restartMetrics = () => {
+    pause()
+    resume()
+  }
+
+  onActivated(() => {
+    if (!shouldRunMetrics()) return
+    getServiceMetrics()
+    resume()
   })
 
-  const handleTimeRange = (time: TimeRangeItem) => {
-    currTimeRange.value = time.text
-  }
+  onDeactivated(() => {
+    pause()
+  })
 </script>
 
 <template>
@@ -119,10 +164,10 @@
                         <a-tag
                           v-if="key === 'status'"
                           class="reset-tag"
-                          :color="CommonStatus[statusColors[attrs[key]]]"
+                          :color="CommonStatus[STATUS_COLOR[attrs[key]!]]"
                         >
-                          <status-dot :color="CommonStatus[statusColors[attrs[key]]]" />
-                          {{ attrs[key] && t(`common.${statusColors[attrs[key]]}`) }}
+                          <status-dot :color="CommonStatus[STATUS_COLOR[attrs[key]!]]" />
+                          {{ attrs[key] && t(`common.${STATUS_COLOR[attrs[key]]}`) }}
                         </a-tag>
                         <a-typography-text
                           v-else-if="key === 'stack'"
@@ -154,14 +199,14 @@
           <a-typography-text strong :content="t('overview.chart')" />
           <a-space :size="12">
             <div
-              v-for="time in timeRanges"
-              :key="time.text"
+              v-for="time in TIME_RANGES"
+              :key="time"
               tabindex="0"
               class="time-range"
-              :class="{ 'time-range-activated': currTimeRange === time.text }"
+              :class="{ 'time-range-activated': interval === time }"
               @click="handleTimeRange(time)"
             >
-              {{ time.text }}
+              {{ time }}
             </div>
           </a-space>
         </div>
@@ -171,24 +216,15 @@
           </div>
         </template>
         <a-row v-else class="box-content">
-          <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+          <a-col v-for="(chart, index) in chartData.charts" :key="index" :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
             <div class="chart-item-wrp">
-              <gauge-chart chart-id="chart1" :title="t('overview.memory_usage')" />
-            </div>
-          </a-col>
-          <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-            <div class="chart-item-wrp">
-              <gauge-chart chart-id="chart2" :title="t('overview.cpu_usage')" />
-            </div>
-          </a-col>
-          <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-            <div class="chart-item-wrp">
-              <category-chart chart-id="chart4" :title="t('overview.cpu_usage')" />
-            </div>
-          </a-col>
-          <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-            <div class="chart-item-wrp">
-              <category-chart chart-id="chart3" :title="t('overview.memory_usage')" />
+              <category-chart
+                :chart-id="`chart${index}`"
+                :x-axis-data="chartData?.timestamps"
+                :data="chart"
+                :title="chart.title"
+                :formatter="getChartFormatter(chart)"
+              />
             </div>
           </a-col>
         </a-row>
