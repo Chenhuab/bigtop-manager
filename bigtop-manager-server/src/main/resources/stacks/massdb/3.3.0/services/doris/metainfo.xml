@@ -26,7 +26,7 @@
             一个用于实时分析的现代数据仓库。
             能够大规模地对实时数据进行闪电般快速的分析。
         </desc>
-        <version>2.1.10</version>
+        <version>3.0.6</version>
         <user>doris</user>
         <license>Apache-2.0</license>
 
@@ -54,8 +54,8 @@
                 </architectures>
                 <packages>
                     <package>
-                        <name>apache-doris-2.1.10-bin-x64-noavx2.tar.gz</name>
-                        <checksum>SHA-512:4238436ad0a6eedc4918018b90a71d39b59c640a96188a007ed109a8c317357bdb6bfd3ed7a8768ebf1d72df10dffd19f5c597235da5e693bd587f4326edcc14</checksum>
+                        <name>apache-doris-3.0.6-bin-x64-noavx2.tar.gz</name>
+                        <checksum>SHA-512:1ed58f17019c8292374ef578761a380bb80b905d902ee9266bcc9436947a45966fd7391463a02221d3c76c45b78dccaab34231aa7d7eaf55ff4beaf32d0519f0</checksum>
                     </package>
                 </packages>
             </package-specific>
@@ -65,8 +65,8 @@
                 </architectures>
                 <packages>
                     <package>
-                        <name>apache-doris-2.1.10-bin-arm64.tar.gz</name>
-                        <checksum>SHA-512:bf9140c547d7b30ff25276fb8a44e443f8518876edd60d56460bc2e60f12c4200261ece60a43909b7c0cd4758621ba9fe85a58c29fb056a43947ee1d2fb27cea</checksum>
+                        <name>apache-doris-3.0.6-bin-arm64.tar.gz</name>
+                        <checksum>SHA-512:08abc54ce699f4e35ee2725918903f7ae89846a3c729c8a1584d6093380546d0bd8cced0eb5cb1fd385d9b066c2054fad40ba912a2f43dc9efa76959a75015dd</checksum>
                     </package>
                 </packages>
             </package-specific>

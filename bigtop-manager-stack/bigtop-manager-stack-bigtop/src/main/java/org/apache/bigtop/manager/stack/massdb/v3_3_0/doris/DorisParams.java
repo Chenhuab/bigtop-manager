@@ -81,7 +81,10 @@ public class DorisParams extends BigtopParams {
     }
 
     public String dorisFePidDir() {
-        return (String) dorisEnv().get("doris_fe_pid_dir");
+        return dorisEnv().get("doris_fe_pid_dir") != null
+                ? BaseTemplate.writeCustomTemplateAsString(
+                        globalParamsMap, (String) dorisEnv().get("doris_fe_pid_dir"))
+                : dorisFeHome() + "/bin";
     }
 
     public String dorisFePidFile() {
@@ -137,7 +140,10 @@ public class DorisParams extends BigtopParams {
     }
 
     public String dorisBePidDir() {
-        return (String) dorisEnv().get("doris_be_pid_dir");
+        return dorisEnv().get("doris_be_pid_dir") != null
+                ? BaseTemplate.writeCustomTemplateAsString(
+                        globalParamsMap, (String) dorisEnv().get("doris_be_pid_dir"))
+                : dorisBeHome() + "/bin";
     }
 
     public String dorisBePidFile() {

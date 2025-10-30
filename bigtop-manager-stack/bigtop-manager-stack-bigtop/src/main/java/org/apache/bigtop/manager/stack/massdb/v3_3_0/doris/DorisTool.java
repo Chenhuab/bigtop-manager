@@ -38,11 +38,11 @@ public class DorisTool {
 
     public DorisTool(String host, String user, String password, int port) {
         this.jdbcUrl = String.format(
-                "jdbc:arrow-flight-sql://%s:%d?useServerPrepStmts=false&cachePrepStmts=true&useSSL=false&useEncryption=false",
+                "jdbc:mysql://%s:%d?useServerPrepStmts=false&cachePrepStmts=true&useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8&maxAllowedPacket=67108864",
                 host, port);
         this.user = user;
         this.password = password;
-        log.info("Connecting to database: [jdbc:arrow-flight-sql://{}:{}]", host, port);
+        log.info("Connecting to database: [jdbc:mysql://{}:{}]", host, port);
     }
 
     public Connection connect() throws Exception {
@@ -77,6 +77,19 @@ public class DorisTool {
         throw new Exception("Failed to connect after " + MAX_RETRIES + " attempts", lastException);
     }
 
+    public boolean addBackendAndFollower(String sql) throws Exception {
+        log.info("Executing: [{}]", sql);
+        try (Connection conn = connect();
+                Statement stmt = conn.createStatement()) {
+            return !stmt.execute(sql);
+        } catch (SQLException e) {
+            if (e.getMessage().contains("already exists")) {
+                log.warn("Already exists [{}]", sql);
+            }
+            throw e;
+        }
+    }
+
     public List<Map<String, Object>> executeQuery(String sql) throws Exception {
         log.info("Executing SQL query: [{}]", sql);
 
@@ -101,4 +114,5 @@ public class DorisTool {
             return resultList;
         }
     }
+
 }

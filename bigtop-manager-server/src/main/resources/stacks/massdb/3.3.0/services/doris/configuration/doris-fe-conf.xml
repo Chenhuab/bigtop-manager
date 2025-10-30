@@ -27,7 +27,7 @@
     </property>
     <property>
         <name>http_port</name>
-        <value>8030</value>
+        <value>8034</value>
         <description>HTTP bind port. All FE http ports must be same currently.</description>
     </property>
     <property>
@@ -77,7 +77,7 @@
 ## see fe/src/org/apache/doris/common/Config.java
 #####################################################################
 
-JAVA_HOME=${java_home}
+JAVA_HOME=/usr/local/java17
 
 CUR_DATE=`date +%Y%m%d-%H%M%S`
 
@@ -98,7 +98,7 @@ JAVA_OPTS="-Dfile.encoding=UTF-8 -Djavax.security.auth.useSubjectCredsOnly=false
 JAVA_OPTS_FOR_JDK_9="-Dfile.encoding=UTF-8 -Djavax.security.auth.useSubjectCredsOnly=false -Xss4m -Xmx4096m -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xlog:gc*:$LOG_DIR/fe.gc.log.$CUR_DATE:time -Dlog4j2.formatMsgNoLookups=true"
 
 # For jdk 17+, this JAVA_OPTS will be used as default JVM options
-JAVA_OPTS_FOR_JDK_17="-Dfile.encoding=UTF-8 -Djavax.security.auth.useSubjectCredsOnly=false -XX:+UseZGC -Xmx4096m -Xms8192m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOG_DIR/ -Xlog:gc*:$LOG_DIR/fe.gc.log.$CUR_DATE:time"
+JAVA_OPTS_FOR_JDK_17="-Dfile.encoding=UTF-8 -Djavax.security.auth.useSubjectCredsOnly=false -XX:+UseZGC -Xmx4096m -Xms4096m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOG_DIR/ -Xlog:gc*:$LOG_DIR/fe.gc.log.$CUR_DATE:time"
 
 ##
 ## the lowercase properties are read by main program.

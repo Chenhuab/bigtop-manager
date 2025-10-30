@@ -48,9 +48,9 @@ public class DorisService {
         }
         String sql = MessageFormat.format(
                 "ALTER SYSTEM ADD BACKEND ''{0}:{1,number,#}'';", hostname, dorisParams.dorisBeHeartbeatPort());
-        DorisTool dorisTool = new DorisTool(aliveFe, "root", "", dorisParams.dorisFeArrowFlightSqlPort());
+        DorisTool dorisTool = new DorisTool(aliveFe, "root", "", dorisParams.dorisFeQueryPort());
         try {
-            dorisTool.executeQuery(sql);
+            dorisTool.addBackendAndFollower(sql);
         } catch (Exception e) {
             log.error("Error register Doris BE [{}] ", hostname, e);
             throw new StackException(e);
@@ -59,7 +59,7 @@ public class DorisService {
 
     public static List<String> getBeList(String aliveFe, DorisParams dorisParams) {
         String sql = "SHOW BACKENDS;";
-        DorisTool dorisTool = new DorisTool(aliveFe, "root", "", dorisParams.dorisFeArrowFlightSqlPort());
+        DorisTool dorisTool = new DorisTool(aliveFe, "root", "", dorisParams.dorisFeQueryPort());
         List<String> beList;
         try {
             beList = dorisTool.executeQuery(sql).stream()
@@ -133,7 +133,7 @@ public class DorisService {
         }
         List<String> feList = new ArrayList<>();
         String sql = "SHOW FRONTENDS;";
-        DorisTool dorisTool = new DorisTool(aliveFe, "root", "", dorisParams.dorisFeArrowFlightSqlPort());
+        DorisTool dorisTool = new DorisTool(aliveFe, "root", "", dorisParams.dorisFeQueryPort());
         try {
             dorisTool.executeQuery(sql).stream()
                     .map(map -> {
@@ -167,13 +167,13 @@ public class DorisService {
         if (feList.contains(hostname)) {
             log.info("Doris FE [{}] already registered", hostname);
         } else {
-            DorisTool dorisTool = new DorisTool(feMaster, "root", "", dorisParams.dorisFeArrowFlightSqlPort());
+            DorisTool dorisTool = new DorisTool(feMaster, "root", "", dorisParams.dorisFeQueryPort());
 
             try {
                 String sql = MessageFormat.format(
                         "ALTER SYSTEM ADD FOLLOWER ''{0}:{1,number,#}'';", hostname, dorisParams.dorisFeEditLogPort());
 
-                dorisTool.executeQuery(sql);
+                dorisTool.addBackendAndFollower(sql);
             } catch (Exception e) {
                 log.error("Error registering Doris Follower: [{}]", e.getMessage());
                 throw new StackException(e);

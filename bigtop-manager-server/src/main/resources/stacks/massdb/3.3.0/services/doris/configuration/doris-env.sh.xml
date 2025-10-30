@@ -29,11 +29,11 @@
     </property>
     <property>
         <name>doris_fe_pid_dir</name>
-        <value>/var/run/doris-fe</value>
+        <value>${doris_fe_home}/bin</value>
     </property>
     <property>
         <name>doris_be_pid_dir</name>
-        <value>/var/run/doris-be</value>
+        <value>${doris_be_home}/bin</value>
     </property>
     <property>
         <name>doris_user_nofile_soft</name>

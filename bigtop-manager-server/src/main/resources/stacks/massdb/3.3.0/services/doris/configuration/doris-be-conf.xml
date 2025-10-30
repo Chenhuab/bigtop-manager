@@ -75,11 +75,10 @@
 # specific language governing permissions and limitations
 # under the License.
 
-JAVA_HOME=${java_home}
+JAVA_HOME=/usr/local/java17
 
 CUR_DATE=`date +%Y%m%d-%H%M%S`
 
-JAVA_HOME=${java_home}
 
 # Log dir
 LOG_DIR=${doris_be_log_dir}
