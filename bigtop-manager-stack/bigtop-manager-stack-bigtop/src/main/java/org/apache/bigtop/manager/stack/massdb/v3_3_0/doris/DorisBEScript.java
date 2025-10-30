@@ -83,7 +83,7 @@ public class DorisBEScript extends AbstractServerScript {
         String cmd = MessageFormat.format("{0}/stop_be.sh", dorisParams.dorisBeBinDir());
         try {
             ShellResult shellResult = LinuxOSUtils.sudoExecCmd(cmd, dorisParams.user());
-            LinuxFileUtils.removeDirectories(dorisParams.dorisBePidDir());
+            LinuxFileUtils.removeDirectories(dorisParams.dorisBePidFile());
             return shellResult;
         } catch (Exception e) {
             throw new StackException(e);

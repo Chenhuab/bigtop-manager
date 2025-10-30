@@ -102,7 +102,7 @@ public class DorisFEScript extends AbstractServerScript {
         String cmd = MessageFormat.format("{0}/stop_fe.sh", dorisParams.dorisFeBinDir());
         try {
             ShellResult shellResult = LinuxOSUtils.sudoExecCmd(cmd, dorisParams.user());
-            LinuxFileUtils.removeDirectories(dorisParams.dorisFePidDir());
+            LinuxFileUtils.removeDirectories(dorisParams.dorisFePidFile());
             return shellResult;
         } catch (Exception e) {
             throw new StackException(e);
